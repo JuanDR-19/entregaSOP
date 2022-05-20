@@ -19,8 +19,10 @@ No está validadas todas las llamadas al sistema. Este publicador envía 10 noti
 int mgetline (char *line, int max, FILE *f)
 {
 
-    if (fgets(line, max, f)== NULL)
+    if (fgets(line, max, f)== NULL){
+       perror("Fallo en la recolecion de las noticias");
        return(0);
+    }
     else return(strlen(line));
 
 }
