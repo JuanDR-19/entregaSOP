@@ -14,7 +14,7 @@ No está validadas todas las llamadas al sistema. Este publicador envía 10 noti
 #include <string.h>
 #include "nom.h"
 
-//
+//comprobar cambios
 
 int main (int argc, char **argv)
 {
