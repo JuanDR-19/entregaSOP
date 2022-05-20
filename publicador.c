@@ -32,6 +32,7 @@ int main (int argc, char **argv)
   int  fd, fd1, n,res,creado=0;
   int tiempo=0;
   char nombrearch[TAMNOMBRE];
+  char nombrepipe[TAMNOMBRE];
   datap datos;
   newp  noti;
   char *file_contents[MAXNEWS][TAMNEW]; //esto sigue sacandome error y no se que es
@@ -42,8 +43,8 @@ int main (int argc, char **argv)
   for(int i=0;i<TAMARGV;i++){ 
 
      if((strcmp(argv[i], "-p") == 0)){
-         printf("El nombre del archivo a abrir es %s",argv[i+1]);
-         strcpy(nombrearch,argv[i+1]);
+         printf("El nombre del archivo a abrir es %s\n",argv[i+1]);
+         strcpy(nombrepipe,argv[i+1]);
       }else{
         if((strcmp(argv[i], "-f") == 0)){
            strcpy(nombrearch,argv[i+1]);
@@ -59,15 +60,15 @@ int main (int argc, char **argv)
    }
 
    do {
-      
-      fd = open(nombrearch, O_WRONLY);
+   
+      fd = open(nombrepipe, O_WRONLY);
       if (fd == -1) {
          perror("Publicador pipe");
          printf(" Se volvera a intentar despues\n");
          sleep(5);        
       } else creado = 1;
    } while (creado == 0); 
-
+   
     FILE* inputfile= fopen(nombrearch,"r"); 
     if (inputfile==NULL){
        perror("Fallo al abrir el archivo");
@@ -75,9 +76,8 @@ int main (int argc, char **argv)
       }else{
          while (mgetline(noticia, sizeof(noticia), inputfile) > 0)  {
             sscanf(noticia, "%d: %s", &topico, not);
-            printf("%s",noticia);
+             printf("%s",noticia);
             if(write(fd, noticia , sizeof(noticia))==-1){
-               printf("%s",noticia);
                perror("Error al escribir dentro del pipe");
                exit(-1);
             }
