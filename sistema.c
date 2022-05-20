@@ -32,7 +32,7 @@ void *take(newp *);
 void *put(newp *);
 void Publicador(int *fd);
 void CerrarPipesS();
-void BuscarUltima(int, char);
+void BuscarUltima(int, int);
 void ColocarSuscriptor(int, char*);
 
 //Variables globales 
@@ -50,8 +50,7 @@ sem_t s, espacios, elementos; // semaforos para la implementacion del buffer
 
 
 // Función que cierra los pipes por donde el central envía datos a los suscriptores. 
-void CerrarPipesS() {
-
+void CerrarPipesS() { //esta funcion no se modifica
   int i;
   for(i = 0; i < NSUSCR; i++)
     if (globalfd[i] > 0) close(globalfd[i]);
@@ -66,24 +65,28 @@ void Publicador(int *fd) {
   newp new;
  
  do {
-    cuantos = read (*fd, &new, sizeof(newp)); // recordar validar llamadas al sistema
+    cuantos = read (*fd, &new, sizeof(newp));
+    if(cuantos==-1){
+      perror("fallo al abrir el pipe del publicador");
+      exit(-1);
+    } 
     if (cuantos == 0) break;
     put(&new);
   } while (cuantos > 0);
  
-  //new.topico = -1; se debe de poner el topico en alguna letra que signifique el final de lectura
+  new.topico = 0; //zero es el numero de topicos vacios
   put(&new);
   printf("\n Se terminan de leer las noticias del Publicador");
   finProd = TRUE;
-  pthread_exit(NULL);
+  pthread_exit(NULL); //verificar la cerrada de los hilos de manera correcta 
 }
 
 
 // Se busca la ultima noticia de un determinado tópico y se envía al fd cuya posición de recibe como primer argumento.
-void BuscarUltima(int pos, char topico) {
-
+void BuscarUltima(int pos, int topico) {
+//esta funcion ya esta terminada, falta implementarle un semaforo
 for(int i=0;;i++){
-    if (strcmp(LASTNEW[i].topico,'-') != 0) { //en el -1 se debe cambiar por el literal del fin de topico establecido
+    if (LASTNEW[i].topico== topico) { 
      printf("Buscando Ultima envia %s  \n", LASTNEW[i].noticia);
      write(globalfd[pos], LASTNEW[i].noticia, strlen(LASTNEW[i].noticia) + 1);
   } 
