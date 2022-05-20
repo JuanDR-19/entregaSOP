@@ -76,7 +76,7 @@ int main (int argc, char **argv)
       }else{
          while (mgetline(noticia, sizeof(noticia), inputfile) > 0)  {
             sscanf(noticia, "%d: %s", &topico, not);
-             printf("%s",noticia);
+            printf("%s",noticia);
             if(write(fd, noticia , sizeof(noticia))==-1){
                perror("Error al escribir dentro del pipe");
                exit(-1);
