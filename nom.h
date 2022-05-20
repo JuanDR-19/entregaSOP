@@ -1,6 +1,6 @@
 #define TAMMENSAJE 20
 #define TAMNOMBRE 20
-#define TAMNEW 30
+#define TAMNEW 80
 #define NNOTICIAS 5
 #define NTOP 2
 #define NSUSCR 20
