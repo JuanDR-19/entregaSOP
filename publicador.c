@@ -57,6 +57,7 @@ int main (int argc, char **argv)
    }
 
    do {
+      
       fd = open(nombrearch, O_WRONLY);
       if (fd == -1) {
          perror("Publicador pipe");
@@ -74,6 +75,7 @@ int main (int argc, char **argv)
             sscanf(noticia, "%d: %s", &topico, not);
             printf("%s",noticia);
             if(write(fd, noticia , sizeof(noticia))==-1){
+               printf("%s",noticia);
                perror("Error al escribir dentro del pipe");
                exit(-1);
             }
