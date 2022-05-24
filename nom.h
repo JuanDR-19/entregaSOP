@@ -12,7 +12,7 @@
 #define TOPCIENCIA 3
 #define TOPPOLITICS 4
 #define TOPSUCESO 5
-#define TAMARGV 7
+#define TAMARGVPUB 7
 #define MAXNEWS 30
 
 

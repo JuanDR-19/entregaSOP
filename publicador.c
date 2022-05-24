@@ -40,7 +40,7 @@ int main (int argc, char **argv)
   int topico;
   char not[TAMNEW];
      
-  for(int i=0;i<TAMARGV;i++){ 
+  for(int i=0;i<TAMARGVPUB;i++){ 
 
      if((strcmp(argv[i], "-p") == 0)){
          printf("El nombre del archivo a abrir es %s\n",argv[i+1]);

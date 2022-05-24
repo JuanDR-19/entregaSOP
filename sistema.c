@@ -24,7 +24,7 @@
 
 // El tamaño del BUFFER donde se ponen las noticias
 
-#define TAMBUF 10
+#define TAMBUF 80
 
 // Prototipo de las funciones
 
@@ -74,6 +74,7 @@ void Publicador(int *fd) {
     put(&new);
   } while (cuantos > 0);
  
+ 
   new.topico = 0; //zero es el numero de topicos vacios
   put(&new);
   printf("\n Se terminan de leer las noticias del Publicador");
@@ -107,7 +108,7 @@ void ColocarSuscriptor(int topico, char *noticia) {
 
    
     // Enviar la noticia por el pipe correspondiente.
-    while ((globalfd[i] != -1) && (salir == FALSE)) {       
+    while ((globalfd[i] != 0) && (salir == FALSE)) {       
       if (suscr[i].topico == topico) { // enviar la noticia por el pipe correspondiente, cambiar a un strcmp()
          if(write(globalfd[i], noticia, strlen(noticia) + 1)==-1){
              perror("error al escribir dentro del archivo");
@@ -132,9 +133,9 @@ void *take(newp *e) {
     sem_wait(&elementos);
     sem_wait(&s);
     memcpy(&temp, &pe[pcons], sizeof(newp));
-    pe[pcons].topico = '-'; // para indicar que la posición está vacia
+    pe[pcons].topico = 0; // para indicar que la posición está vacia
     pcons= (pcons + 1) % TAMBUF;
-    if (temp.topico  == -1) { // el ultimo elemento (falta definir)
+    if (temp.topico  == 0) { // el ultimo elemento 
       sem_post(&s);
       sem_post(&espacios);
       finCons == TRUE;
@@ -168,6 +169,9 @@ void *put(newp *e) {
 
 int main (int argc, char **argv)
 {
+  char nombrepipepub[TAMNOMBRE];
+  char nombrepipesub[TAMNOMBRE];
+  int tiempo=0;
   int fd, fd1, pid, n, bytes, cuantos, creado,i, abiertos;
   datap datos;
   pthread_t thread[3];
@@ -182,40 +186,60 @@ int main (int argc, char **argv)
   
   // inicializacion de las estructuras de datos globales compartidas
   
-  for (i=0; i < TAMBUF; i++) BUFFER[i].topico = '-'; //caracter de topico vacio
+  for (i=0; i < TAMBUF; i++) BUFFER[i].topico = 0; //caracter de topico vacio
   for (i=0; i < NSUSCR; i++) globalfd[i] = -1;
   for (i=0; i < NSUSCR; i++) suscr[i].topico = -1;
   for (i=0; i < NTOP; i++) LASTNEW[i].topico = -1;
   
  
   // Creacion del pipe del lado del publicador
-  //Se debe de hacer algo similar a o realizado en el publicador con los flags 
-    if (mkfifo (argv[2], fifo_mode) == -1) {
+  //Se debe de hacer algo similar a o realizado en el publicador con los flags
+
+  for(int i=0;i<TAMARGVPUB;i++){ 
+
+     if((strcmp(argv[i], "-p") == 0)){
+         printf("El nombre del archivo del pipe publicador es %s\n",argv[i+1]);
+         strcpy(nombrepipepub,argv[i+1]);
+      }else{
+        if((strcmp(argv[i], "-s") == 0)){
+           strcpy(nombrepipesub,argv[i+1]);
+           printf("El nombre del archivo del pipe suscriptor es es %s\n", argv[i+1]);
+         }else{
+              if((strcmp(argv[i], "-t") == 0)){
+                 printf("time\n");
+                 tiempo=atoi(argv[i+1]);
+                 printf("El tiempo registrado es %i, despues de estos segundos se deja de esperar por mas publicadores \n", tiempo);
+               }
+            }
+         }
+   }
+
+    if (mkfifo (nombrepipepub, fifo_mode) == -1) {
         perror("mkfifo");
         exit(1);
     }  
 
-     fd1 = open (argv[2], O_RDONLY);
+     fd1 = open (nombrepipepub, O_RDONLY);
      if (fd1 == -1) {
          perror("pipe publicador");
          exit (0);
       }
 
   // Creacion del pipe del lado del suscriptor
-  //mejorar el sistema de flags aqui tambien
 
-     if (mkfifo (argv[1], fifo_mode) == -1) {
+
+     if (mkfifo (nombrepipesub, fifo_mode) == -1) {
         perror("mkfifo");
         exit(1);
      }
 
-     fd = open (argv[1], O_RDONLY);
+     fd = open (nombrepipesub, O_RDONLY);
      if (fd == -1) {
        perror("pipe suscriptor");
        exit (0);
      }
 
-
+  //fd es el pipe sub y fd1 es el pipe pub
      // El primer hilo, lee las noticias del pipe del publicador y las coloca en el BUFFER de noticias, el segundo hilo toma las noticias
      // del BUFFER y las envía a los suscriptores. 
      
@@ -224,8 +248,6 @@ int main (int argc, char **argv)
       
      // El hilo principal se queda leyendo del pipe de los suscriptores.     
   
-    
-   
       for(i=0;;i++) {
 
        cuantos = read (fd, &datos, sizeof(datos));
@@ -233,6 +255,7 @@ int main (int argc, char **argv)
        if (cuantos <= 0) break;
      
        do { 
+         //lo que hace el globalfd en este if es guardar el file descriptor del nombre del publicador mandado
           if ((globalfd[i] = open(datos.segundopipe, O_WRONLY)) == -1) {
              perror("Server Abriendo el segundo pipe ");
              printf("Se volvera a intentar despues\n");
