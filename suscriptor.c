@@ -34,7 +34,7 @@ int main (int argc, char **argv)
  
    for(int i=0;i<TAMARGVSUB;i++){ 
 
-     if((strcmp(argv[i], "-p") == 0)){
+     if((strcmp(argv[i], "-s") == 0)){
          printf("El nombre del archivo del pipe publicador es %s\n",argv[i+1]);
          strcpy(nombrepipesub,argv[i+1]);
       }
