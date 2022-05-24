@@ -234,7 +234,7 @@ int main (int argc, char **argv)
         exit(1);
      }
 
-     fd = open (nombrepipesub,O_RDWR);
+     fd = open (nombrepipesub,O_RDONLY);
      
      if (fd == -1) {
        perror("pipe suscriptor");
