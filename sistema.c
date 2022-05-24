@@ -234,7 +234,7 @@ int main (int argc, char **argv)
         exit(1);
      }
 
-     fd = open (nombrepipesub, O_RDONLY);
+     fd = open (nombrepipesub, O_RDONLY | O_WRONLY);
      
      if (fd == -1) {
        perror("pipe suscriptor");
@@ -273,6 +273,6 @@ int main (int argc, char **argv)
   // Cerrar y eliminar el pipe
       close(fd);
       close(fd1);
-      unlink(argv[1]);
-      unlink(argv[2]);
+      unlink(nombrepipepub);
+      unlink(nombrepipesub);
 }
