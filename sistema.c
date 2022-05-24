@@ -212,28 +212,35 @@ int main (int argc, char **argv)
                }
             }
          }
+         if(i==7) break;
    }
 
     if (mkfifo (nombrepipepub, fifo_mode) == -1) {
         perror("mkfifo");
         exit(1);
-    }  
-
-     fd1 = open (nombrepipepub, O_RDONLY);
-     if (fd1 == -1) {
-         perror("pipe publicador");
-         exit (0);
-      }
+    } else{
+      printf("se creo el pipe publicador de nombre: %s",nombrepipepub);
+    }
+    
 
   // Creacion del pipe del lado del suscriptor
-
 
      if (mkfifo (nombrepipesub, fifo_mode) == -1) {
         perror("mkfifo");
         exit(1);
+     }else{
+          printf("se creo el pipe suscriptor de nombre: %s",nombrepipesub);
      }
 
+      fd1 = open (nombrepipepub, O_RDONLY);
+      
+      if (fd1 == -1) {
+         perror("pipe publicador");
+         exit (0);
+      }
+
      fd = open (nombrepipesub, O_RDONLY);
+     
      if (fd == -1) {
        perror("pipe suscriptor");
        exit (0);
