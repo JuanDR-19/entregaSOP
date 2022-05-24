@@ -43,7 +43,7 @@ int main (int argc, char **argv)
   for(int i=0;i<TAMARGVPUB;i++){ 
 
      if((strcmp(argv[i], "-p") == 0)){
-         printf("El nombre del archivo a abrir es %s\n",argv[i+1]);
+         printf("El nombre del pipe por abrir es %s\n",argv[i+1]);
          strcpy(nombrepipe,argv[i+1]);
       }else{
         if((strcmp(argv[i], "-f") == 0)){
