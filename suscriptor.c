@@ -53,7 +53,7 @@ int main (int argc, char **argv)
   } while (creado == 0);
 
    printf("Indique la cantidad de tematicas a las que se suscribira: ");
-   scanf("%d",cantidad); //sugerencia: cambiar los topicos por enteros
+   scanf("%d",&cantidad); //sugerencia: cambiar los topicos por enteros
    printf("Se manejaran las siguientes nomenclaturas para los temas\n");
    printf("#1 para noticias de tipo arte\n");
    printf("#2 para noticias de tipo farandula y espectaculos\n");
@@ -62,7 +62,7 @@ int main (int argc, char **argv)
    printf("#5 para noticias de tipo sucesos\n");
    for(int i=0;i<cantidad;i++){
       printf("Ingrese el numero de la tematica ");
-      scanf("%d",topicos[i]);
+      scanf("%d",&topicos[i]);
    }
 
    for(int i=0;i<NUMTOPICS;i++){

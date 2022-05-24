@@ -174,7 +174,8 @@ int main (int argc, char **argv)
   int tiempo=0;
   int fd, fd1, pid, n, bytes, cuantos, creado,i, abiertos;
   datap datos;
-  pthread_t thread[3];
+  pthread_t threadpub;
+  pthread_t threadsub;
  
    
   mode_t fifo_mode = S_IRUSR | S_IWUSR;
@@ -245,8 +246,8 @@ int main (int argc, char **argv)
      // El primer hilo, lee las noticias del pipe del publicador y las coloca en el BUFFER de noticias, el segundo hilo toma las noticias
      // del BUFFER y las envía a los suscriptores. 
      
-     pthread_create(&thread[0], NULL, (void*) Publicador, (void*)&fd1);        
-     pthread_create(&thread[1], NULL, (void*) take, (void*)BUFFER);
+     pthread_create(&threadpub, NULL, (void*) Publicador, (void*)&fd1);        
+     pthread_create(&threadsub, NULL, (void*) take, (void*)BUFFER);
       
      // El hilo principal se queda leyendo del pipe de los suscriptores.     
   
