@@ -1,19 +1,19 @@
-all: publicador server
+all: publicador suscriptor sistema
 
-server: publicador.o nom.h
+publicador: publicador.o nom.h
 	gcc -o publicador publicador.o
 
-server.o: publicador.c nom.h
-	gcc -c publicador.c
+publicador.o: publicador.c
+	gcc -c -o publicador.o publicador.c
 
-client: suscriptor.o nom.h
+suscriptor: suscriptor.o nom.h
 	gcc -o suscriptor suscriptor.o
 
-client.o: suscriptor.c nom.h
-	gcc -c suscriptor.c
+suscriptor.o: suscriptor.c
+	gcc -c -o suscriptor.o suscriptor.c
 
-client: sistema.o nom.h
-	gcc -o sistema sistema.o
+sistema: sistema.o nom.h
+	gcc -o sistema sistema.o -pthread
 
-client.o: sistema.c nom.h
-	gcc -c sistema.c
+sistema.o: sistema.c
+	gcc -c -o sistema.o sistema.c
