@@ -27,14 +27,24 @@ int main (int argc, char **argv)
   char nombre[TAMNOMBRE];
   int cantidad;
   int topicos[5];
+  char nombrepipesub[TAMNOMBRE];
  
   
   mode_t fifo_mode = S_IRUSR | S_IWUSR;
  
-  
+   for(int i=0;i<TAMARGVSUB;i++){ 
+
+     if((strcmp(argv[i], "-p") == 0)){
+         printf("El nombre del archivo del pipe publicador es %s\n",argv[i+1]);
+         strcpy(nombrepipesub,argv[i+1]);
+      }
+      if(i==3) break;
+   }
+         
+
   // Se abre el pipe cuyo nombre se recibe como argumento del main. 
   do { 
-     fd = open(argv[1], O_WRONLY);
+     fd = open(nombrepipesub, O_WRONLY);
      if (fd == -1) {
          perror("Suscriptor pipe");
          printf("Se volvera a intentar despues\n");

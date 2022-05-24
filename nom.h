@@ -14,6 +14,7 @@
 #define TOPSUCESO 5
 #define TAMARGVPUB 7
 #define MAXNEWS 30
+#define TAMARGVSUB 3
 
 
 
