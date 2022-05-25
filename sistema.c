@@ -138,7 +138,7 @@ void *take(newp *e) {
     if (temp.topico  == 0) { // el ultimo elemento 
       sem_post(&s);
       sem_post(&espacios);
-      finCons == TRUE;
+      finCons = TRUE;
       break;
     } else {
       ColocarSuscriptor(temp.topico, temp.noticia);

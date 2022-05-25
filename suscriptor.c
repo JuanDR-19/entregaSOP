@@ -61,15 +61,16 @@ int main (int argc, char **argv)
    }
 
   // Se abre el pipe cuyo nombre se recibe como argumento del main. 
-  while(creado!=1){ 
-     fd = open(nombrepipesub, O_RDONLY);
-     if (fd == -1) {
-         perror("Suscriptor pipe");
-         printf("Se volvera a intentar despues\n");
-	 sleep(3);        
-     } else creado = 1;
-  } 
-
+  
+   do {
+      fd = open(nombrepipesub, O_WRONLY);
+      if (fd == -1) {
+         perror("suscriptor pipe");
+         printf(" Se volvera a intentar despues\n");
+         sleep(3);        
+      } else creado = 1;
+   } while (creado == 0); 
+  
   datos.pid = getpid();
   for(int i=0;i<NUMTOPICS;i++){
      datos.topico[i]=topicos[i];
