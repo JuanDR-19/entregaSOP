@@ -43,14 +43,14 @@ int main (int argc, char **argv)
          
 
   // Se abre el pipe cuyo nombre se recibe como argumento del main. 
-  do { 
+  while(creado!=1){ 
      fd = open(nombrepipesub, O_RDONLY);
      if (fd == -1) {
          perror("Suscriptor pipe");
          printf("Se volvera a intentar despues\n");
-	 sleep(5);        
+	 sleep(3);        
      } else creado = 1;
-  } while (creado == 0);
+  } 
 
    printf("Indique la cantidad de tematicas a las que se suscribira: ");
    scanf("%d",&cantidad); //sugerencia: cambiar los topicos por enteros
