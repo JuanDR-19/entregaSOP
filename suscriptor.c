@@ -63,7 +63,7 @@ int main (int argc, char **argv)
   // Se abre el pipe cuyo nombre se recibe como argumento del main. 
   
    do {
-      fd = open(nombrepipesub, O_WRONLY);
+      fd = open(nombrepipesub, O_RDONLY);
       if (fd == -1) {
          perror("suscriptor pipe");
          printf(" Se volvera a intentar despues\n");
