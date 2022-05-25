@@ -249,12 +249,9 @@ int main (int argc, char **argv)
      pthread_create(&threadpub, NULL, (void*) Publicador, (void*)&fd1);        
      pthread_create(&threadsub, NULL, (void*) take, (void*)BUFFER);
       
-     pthread_join(threadpub, NULL);
-     pthread_join(threadsub, NULL);
+     pthread_join(threadpub, (void*)&fd1);
+     pthread_join(threadsub, (void*)BUFFER);
   
-  
-     pthread_exit(NULL);
-     pthread_exit(NULL);
      // El hilo principal se queda leyendo del pipe de los suscriptores.     
   
       for(i=0;;i++) {
