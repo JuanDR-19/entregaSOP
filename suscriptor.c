@@ -41,18 +41,7 @@ int main (int argc, char **argv)
       if(i==3) break;
    }
          
-
-  // Se abre el pipe cuyo nombre se recibe como argumento del main. 
-  while(creado!=1){ 
-     fd = open(nombrepipesub, O_RDONLY);
-     if (fd == -1) {
-         perror("Suscriptor pipe");
-         printf("Se volvera a intentar despues\n");
-	 sleep(3);        
-     } else creado = 1;
-  } 
-
-   printf("Indique la cantidad de tematicas a las que se suscribira: ");
+    printf("Indique la cantidad de tematicas a las que se suscribira: ");
    scanf("%d",&cantidad); //sugerencia: cambiar los topicos por enteros
    printf("Se manejaran las siguientes nomenclaturas para los temas\n");
    printf("#1 para noticias de tipo arte\n");
@@ -70,6 +59,16 @@ int main (int argc, char **argv)
          topicos[i]=0; //0 será el caracter vacio
       }
    }
+
+  // Se abre el pipe cuyo nombre se recibe como argumento del main. 
+  while(creado!=1){ 
+     fd = open(nombrepipesub, O_RDONLY);
+     if (fd == -1) {
+         perror("Suscriptor pipe");
+         printf("Se volvera a intentar despues\n");
+	 sleep(3);        
+     } else creado = 1;
+  } 
 
   datos.pid = getpid();
   for(int i=0;i<NUMTOPICS;i++){
