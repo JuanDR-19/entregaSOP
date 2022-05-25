@@ -237,6 +237,7 @@ int main (int argc, char **argv)
        perror("pipe suscriptor");
        exit (0);
      }
+     //subir otra vez
 
   //fd es el pipe sub y fd1 es el pipe pub
      // El primer hilo, lee las noticias del pipe del publicador y las coloca en el BUFFER de noticias, el segundo hilo toma las noticias
