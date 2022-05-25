@@ -266,7 +266,7 @@ int main (int argc, char **argv)
           } else creado = 1; 
        }  while (creado == 0);
        suscr[i].pid = datos.pid;
-       suscr[i].topico = datos.topico;    
+       suscr[i].topico = datos.topico[i];    
        BuscarUltima(i,suscr[i].topico);
     }   // Fin del ciclo infinito
     
