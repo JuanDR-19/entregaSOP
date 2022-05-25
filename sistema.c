@@ -79,7 +79,7 @@ void Publicador(int *fd) {
   put(&new);
   printf("\n Se terminan de leer las noticias del Publicador");
   finProd = TRUE;
-  pthread_exit(NULL); //verificar la cerrada de los hilos de manera correcta 
+   
 }
 
 
@@ -138,7 +138,7 @@ void *take(newp *e) {
     if (temp.topico  == 0) { // el ultimo elemento 
       sem_post(&s);
       sem_post(&espacios);
-      finCons = TRUE;
+      finCons == TRUE;
       break;
     } else {
       ColocarSuscriptor(temp.topico, temp.noticia);
@@ -237,20 +237,16 @@ int main (int argc, char **argv)
        perror("pipe suscriptor");
        exit (0);
      }
-     //subir otra vez
 
   //fd es el pipe sub y fd1 es el pipe pub
      // El primer hilo, lee las noticias del pipe del publicador y las coloca en el BUFFER de noticias, el segundo hilo toma las noticias
      // del BUFFER y las envía a los suscriptores. 
      
+     
      pthread_create(&threadpub, NULL, (void*) Publicador, (void*)&fd1);        
      pthread_create(&threadsub, NULL, (void*) take, (void*)BUFFER);
       
-     pthread_join(threadpub, (void**)&fd1);
-     pthread_join(threadsub, (void**)BUFFER);
-  
-     pthread_exit(NULL);
-     pthread_exit(NULL);
+     pthread_exit(NULL); //verificar la cerrada de los hilos de manera correcta
   
      // El hilo principal se queda leyendo del pipe de los suscriptores.     
   
@@ -269,7 +265,7 @@ int main (int argc, char **argv)
           } else creado = 1; 
        }  while (creado == 0);
        suscr[i].pid = datos.pid;
-       suscr[i].topico = datos.topico[i];    
+       suscr[i].topico = datos.topico;    
        BuscarUltima(i,suscr[i].topico);
     }   // Fin del ciclo infinito
     
