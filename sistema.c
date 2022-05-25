@@ -246,11 +246,11 @@ int main (int argc, char **argv)
      // El primer hilo, lee las noticias del pipe del publicador y las coloca en el BUFFER de noticias, el segundo hilo toma las noticias
      // del BUFFER y las envía a los suscriptores. 
      
-     pthread_create(&threadpub, NULL, (void**) Publicador, (void*)&fd1);        
-     pthread_create(&threadsub, NULL, (void**) take, (void*)BUFFER);
+     pthread_create(&threadpub, NULL, (void*) Publicador, (void*)&fd1);        
+     pthread_create(&threadsub, NULL, (void*) take, (void*)BUFFER);
       
-     pthread_join(threadpub, (void*)&fd1);
-     pthread_join(threadsub, (void*)BUFFER);
+     pthread_join(threadpub, (void**)&fd1);
+     pthread_join(threadsub, (void**)BUFFER);
   
      pthread_exit(NULL);
      pthread_exit(NULL);
