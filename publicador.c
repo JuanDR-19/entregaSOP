@@ -20,7 +20,7 @@ int mgetline (char *line, int max, FILE *f)
 {
 
     if (fgets(line, max, f)== NULL){
-       perror("Fallo en la recolecion de las noticias");
+       perror("Se termina de leer el archivo");
        return(0);
     }
     else return(strlen(line));
