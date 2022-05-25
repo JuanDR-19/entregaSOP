@@ -249,8 +249,8 @@ int main (int argc, char **argv)
      pthread_create(&threadpub, NULL, (void*) Publicador, (void*)&fd1);        
      pthread_create(&threadsub, NULL, (void*) take, (void*)BUFFER);
       
-     pthread_join(thread_id1, (void **)&salida1);
-     pthread_join(thread_id2, (void **)&salida2);
+     pthread_join(&threadpub, (void*)&salida1);
+     pthread_join(&threadsub, (void*)&salida2);
   
   
      pthread_exit(NULL);
