@@ -173,7 +173,7 @@ int main (int argc, char **argv)
   char nombrepipesub[TAMNOMBRE];
   int tiempo=0;
   int fd, fd1, pid, n, bytes, cuantos, creado,i, abiertos;
-  datap datos;
+  datap datos,salida1,salida2;
   pthread_t threadpub;
   pthread_t threadsub;
  
@@ -249,6 +249,12 @@ int main (int argc, char **argv)
      pthread_create(&threadpub, NULL, (void*) Publicador, (void*)&fd1);        
      pthread_create(&threadsub, NULL, (void*) take, (void*)BUFFER);
       
+     pthread_join(thread_id1, (void **)&salida1);
+     pthread_join(thread_id2, (void **)&salida2);
+  
+  
+     pthread_exit(NULL);
+     pthread_exit(NULL);
      // El hilo principal se queda leyendo del pipe de los suscriptores.     
   
       for(i=0;;i++) {
