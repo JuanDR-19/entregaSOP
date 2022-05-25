@@ -147,10 +147,6 @@ void *take(newp *e) {
     }  
     
   }
- 
-  printf("\n Thread consumidor termina \n");
-  if (finProd == TRUE) CerrarPipesS();
-  pthread_exit(NULL);
   
 
 }  
